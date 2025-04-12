@@ -11,7 +11,7 @@ on:
     types: [repository_dispatch]
 
 jobs:
-  send_message:
+  actions_test:
     runs-on: rpi
 
     steps:
