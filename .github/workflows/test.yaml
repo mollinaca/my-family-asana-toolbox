@@ -1,0 +1,22 @@
+name: GitHub Actions Test
+
+#on:
+#  push:
+#    paths:
+#      - 'discord-test/**'
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [repository_dispatch]
+
+jobs:
+  send_message:
+    runs-on: rpi
+
+    steps:
+    - name: actions test
+      run: | 
+        echo "GitHub Actions Test!"
+        date
+
