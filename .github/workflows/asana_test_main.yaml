@@ -23,7 +23,7 @@ jobs:
       id: set_env
       run: | 
         echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
-        echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL_TEST }}" >> $GITHUB_ENV
+        echo "DISCORD_WEBHOOK_URL_TEST=${{ secrets.DISCORD_WEBHOOK_URL_TEST }}" >> $GITHUB_ENV
         
 
     - name: Use pyenv Python 3.12 and get asana info
@@ -33,7 +33,6 @@ jobs:
         eval "$(pyenv init --path)"
         eval "$(pyenv init -)"
         pyenv shell 3.12
-        echo ${DISCORD_WEBHOOK_URL}
         python ./get_a_user.py >>asana_info.json
 
     - name: Run Discord test script
