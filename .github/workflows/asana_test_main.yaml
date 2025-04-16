@@ -1,8 +1,8 @@
 name: Asana API Test
 
 on:
-  schedule:
-    - cron: '17 10,22 * * *' # JST 7 AM 実行
+# schedule:
+#   - cron: '17 10,22 * * *' # JST 7 AM 実行
 #   - cron: '* 22 * * *' # JST 7 AM 実行
 #   - cron: '01 * * * *' # 毎時 01 分に実行
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
       id: set_env
       run: | 
         echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
-        echo "DISCORD_WEBHOOK_URL_TEST=${{ secrets.DISCORD_WEBHOOK_URL }}" >> $GITHUB_ENV
+        echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}" >> $GITHUB_ENV
         
 
     - name: Use pyenv Python 3.12 and get asana info
