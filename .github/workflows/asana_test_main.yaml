@@ -33,7 +33,7 @@ jobs:
         eval "$(pyenv init --path)"
         eval "$(pyenv init -)"
         pyenv shell 3.12
-        python ./asana-test/get_a_user.py >>asana_info.json
+        python ./get_a_user.py >>asana_info.json
 
     - name: Run Discord test script
       id: run_discord_post
