@@ -3,8 +3,8 @@ import datetime
 import os
 import sys
 import requests
-#from dotenv import load_dotenv
-#load_dotenv()  # take environment variables
+from dotenv import load_dotenv
+load_dotenv()
 
 def main():
     WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
