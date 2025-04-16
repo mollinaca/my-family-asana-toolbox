@@ -1,0 +1,40 @@
+name: Asana API Test Dev
+
+on:
+  schedule:
+    - cron: '17 10,22 * * *' # JST 7 AM 実行
+#   - cron: '* 22 * * *' # JST 7 AM 実行
+#   - cron: '01 * * * *' # 毎時 01 分に実行
+  workflow_dispatch:
+  repository_dispatch:
+    types: [repository_dispatch]
+
+jobs:
+  send_message:
+    runs-on: rpi
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: development
+
+    - name: Set environment variable
+      id: set_env
+      run: | 
+        echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
+        echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL_TEST }}" >> $GITHUB_ENV
+        
+
+    - name: Use pyenv Python 3.12 and get asana info
+      run: |
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+        pyenv shell 3.12
+        python ./get_a_user.py >>asana_info.json
+
+    - name: Run Discord test script
+      id: run_discord_post
+      run: python ./discord_post.py "$(cat asana_info.json)"
