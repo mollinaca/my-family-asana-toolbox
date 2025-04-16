@@ -33,6 +33,7 @@ jobs:
         eval "$(pyenv init --path)"
         eval "$(pyenv init -)"
         pyenv shell 3.12
+        echo ${DISCORD_WEBHOOK_URL}
         python ./get_a_user.py >>asana_info.json
 
     - name: Run Discord test script
