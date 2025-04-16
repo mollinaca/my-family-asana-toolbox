@@ -1,4 +1,4 @@
-name: Asana API Test
+name: Asana API Test Dev
 
 on:
   schedule:
