@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def main():
-    WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+    WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL_TEST")
 
     if len(sys.argv) > 1:
         message = " ".join(sys.argv[1:])
