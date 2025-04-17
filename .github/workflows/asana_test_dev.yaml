@@ -35,6 +35,7 @@ jobs:
         pyenv shell 3.12
         ls -l >>message.txt
         python ./get_a_user.py >>message.txt
+        python ./test_script.py >>message.txt
 
     - name: Run Discord test script
       id: run_discord_post
