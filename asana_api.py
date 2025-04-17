@@ -102,15 +102,15 @@ class AsanaAPI:
 """
 test code
 """
-a = AsanaAPI()
-#ret = a.get_multiple_workspaces()
-#print (ret)
-
-#ret = a.get_multiple_projects()
-#print (ret)
-
-ret = a.get_multiple_tasks(exclude_completed=True)
-#print (ret)
-for task in ret["response"]:
-    print (task)
-    print ()
+#a = AsanaAPI()
+##ret = a.get_multiple_workspaces()
+##print (ret)
+#
+##ret = a.get_multiple_projects()
+##print (ret)
+#
+#ret = a.get_multiple_tasks(exclude_completed=True)
+##print (ret)
+#for task in ret["response"]:
+#    print (task)
+#    print ()
