@@ -26,15 +26,14 @@ jobs:
         echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL_TEST }}" >> $GITHUB_ENV
         
 
-    - name: Use pyenv Python 3.12 and exec test_script
+    - name: Use pyenv Python 3.12 and exec test_script #python ./test_script.py >>message.txt
       run: |
         export PYENV_ROOT="$HOME/.pyenv"
         export PATH="$PYENV_ROOT/bin:$PATH"
         eval "$(pyenv init --path)"
         eval "$(pyenv init -)"
         pyenv shell 3.12
-        ls -l
-        python ./test_script.py >>message.txt
+        ls -l >>message.txt
 
     - name: Run Discord test script
       id: run_discord_post
