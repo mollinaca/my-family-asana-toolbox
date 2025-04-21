@@ -17,6 +17,7 @@ class AsanaAPI:
         self.asana_section_completed = os.getenv("ASANA_SECTION_COMPLETED")
         self.asana_section_archive2025 = os.getenv("ASANA_SECTION_ARCHIVED_2025")
         self.api_client = asana.ApiClient(self.configuration)
+        self.asana_opt_fields_full = "assignee,assignee.name,created_at,created_by,created_by.name,custom_field,custom_field.date_value,custom_field.date_value.date,custom_field.date_value.date_time,custom_field.display_value,custom_field.enabled,custom_field.enum_options,custom_field.enum_options.color,custom_field.enum_options.enabled,custom_field.enum_options.name,custom_field.enum_value,custom_field.enum_value.color,custom_field.enum_value.enabled,custom_field.enum_value.name,custom_field.id_prefix,custom_field.is_formula_field,custom_field.multi_enum_values,custom_field.multi_enum_values.color,custom_field.multi_enum_values.enabled,custom_field.multi_enum_values.name,custom_field.name,custom_field.number_value,custom_field.representation_type,custom_field.text_value,custom_field.type,dependency,dependency.created_by,dependency.name,dependency.resource_subtype,duplicate_of,duplicate_of.created_by,duplicate_of.name,duplicate_of.resource_subtype,duplicated_from,duplicated_from.created_by,duplicated_from.name,duplicated_from.resource_subtype,follower,follower.name,hearted,hearts,hearts.user,hearts.user.name,html_text,is_editable,is_edited,is_pinned,liked,likes,likes.user,likes.user.name,new_approval_status,new_date_value,new_dates,new_dates.due_at,new_dates.due_on,new_dates.start_on,new_enum_value,new_enum_value.color,new_enum_value.enabled,new_enum_value.name,new_multi_enum_values,new_multi_enum_values.color,new_multi_enum_values.enabled,new_multi_enum_values.name,new_name,new_number_value,new_people_value,new_people_value.name,new_resource_subtype,new_section,new_section.name,new_text_value,num_hearts,num_likes,offset,old_approval_status,old_date_value,old_dates,old_dates.due_at,old_dates.due_on,old_dates.start_on,old_enum_value,old_enum_value.color,old_enum_value.enabled,old_enum_value.name,old_multi_enum_values,old_multi_enum_values.color,old_multi_enum_values.enabled,old_multi_enum_values.name,old_name,old_number_value,old_people_value,old_people_value.name,old_resource_subtype,old_section,old_section.name,old_text_value,path,previews,previews.fallback,previews.footer,previews.header,previews.header_link,previews.html_text,previews.text,previews.title,previews.title_link,project,project.name,resource_subtype,source,sticker_name,story,story.created_at,story.created_by,story.created_by.name,story.resource_subtype,story.text,tag,tag.name,target,target.created_by,target.name,target.resource_subtype,task,task.created_by,task.name,task.resource_subtype,text,type,uri"
 
     def get_multiple_workspaces(self) -> dict:
         """
@@ -80,7 +81,7 @@ class AsanaAPI:
             **({'section': section} if section is not None else {}),
             **({'completed_since': 'now'} if exclude_completed else {}),
             **({'offset': offset} if offset is not None else {}),
-            'opt_fields': "approval_status,assignee.name,completed,completed_at,due_at,due_on,memberships.section.name,modified_at,name,notes,offset,parent,parent.created_by,parent.name,path,permalink_url,tags.name,uri"
+            'opt_fields': self.asana_opt_fields_full
             }
 
         try:
@@ -96,15 +97,16 @@ class AsanaAPI:
         return ret
 
     def get_a_task(self, task_gid:str = None) -> dict:
+        """
+        https://developers.asana.com/reference/gettask
+        """
         ret = {"ok": False}
         if task_gid is None:
             ret = {"ok": False, "response": "task_gid required"}
             return ret
 
         tasks_api_instance = asana.TasksApi(self.api_client)
-        opts = {
-            'opt_fields': "actual_time_minutes,approval_status,assignee,assignee.name,assignee_section,assignee_section.name,assignee_status,completed,completed_at,completed_by,completed_by.name,created_at,created_by,custom_fields,custom_fields.asana_created_field,custom_fields.created_by,custom_fields.created_by.name,custom_fields.currency_code,custom_fields.custom_label,custom_fields.custom_label_position,custom_fields.date_value,custom_fields.date_value.date,custom_fields.date_value.date_time,custom_fields.default_access_level,custom_fields.description,custom_fields.display_value,custom_fields.enabled,custom_fields.enum_options,custom_fields.enum_options.color,custom_fields.enum_options.enabled,custom_fields.enum_options.name,custom_fields.enum_value,custom_fields.enum_value.color,custom_fields.enum_value.enabled,custom_fields.enum_value.name,custom_fields.format,custom_fields.has_notifications_enabled,custom_fields.id_prefix,custom_fields.is_formula_field,custom_fields.is_global_to_workspace,custom_fields.is_value_read_only,custom_fields.multi_enum_values,custom_fields.multi_enum_values.color,custom_fields.multi_enum_values.enabled,custom_fields.multi_enum_values.name,custom_fields.name,custom_fields.number_value,custom_fields.people_value,custom_fields.people_value.name,custom_fields.precision,custom_fields.privacy_setting,custom_fields.representation_type,custom_fields.resource_subtype,custom_fields.text_value,custom_fields.type,custom_type,custom_type.name,custom_type_status_option,custom_type_status_option.name,dependencies,dependents,due_at,due_on,external,external.data,followers,followers.name,hearted,hearts,hearts.user,hearts.user.name,html_notes,is_rendered_as_separator,liked,likes,likes.user,likes.user.name,memberships,memberships.project,memberships.project.name,memberships.section,memberships.section.name,modified_at,name,notes,num_hearts,num_likes,num_subtasks,parent,parent.created_by,parent.name,parent.resource_subtype,permalink_url,projects,projects.name,resource_subtype,start_at,start_on,tags,tags.name,workspace,workspace.name", # list[str] | This endpoint returns a resource which excludes some properties by default. To include those optional properties, set this query parameter to a comma-separated list of the properties you wish to include.
-        }
+        opts = {'opt_fields': self.asana_opt_fields_full}
 
         try:
             api_response = tasks_api_instance.get_task(task_gid, opts)
@@ -114,7 +116,10 @@ class AsanaAPI:
 
         return ret
 
-    def create_a_task(self, task_name:str = None, task_notes:str = None, tags:str = None, due_on:str = None) -> dict:
+    def create_a_task(self, task_name:str = None, task_notes:str = None, tags:list = None, due_on:str = None) -> dict:
+        """
+        https://developers.asana.com/reference/createtask
+        """
         ret = {"ok": False}
         if task_name is None or task_notes is None:
             ret = {"ok": False, "response": "task_name and task_notes required"}
@@ -125,7 +130,7 @@ class AsanaAPI:
                         "projects": self.asana_pj_gid,
                         "name": task_name, 
                         "notes": task_notes,
-                        **({"tags": [tags]} if tags is not None else {}),
+                        **({"tags": tags} if tags is not None else {}),
                         **({"due_on": due_on} if due_on is not None else {}),
                         }
                 }
@@ -139,3 +144,52 @@ class AsanaAPI:
             ret = {"ok": False, "response": str(e)}
 
         return ret
+
+    def update_a_task(self, task_gid:str = None, task_name:str = None, task_notes:str = None, tags:list = None) -> dict:
+        """
+        https://developers.asana.com/reference/updatetask
+        """
+        ret = {"ok": False}
+        if task_gid is None:
+            ret = {"ok": False, "response": "task_gid required"}
+            return ret
+
+        tasks_api_instance = asana.TasksApi(self.api_client)
+        body = {"data": {
+                        "projects": self.asana_pj_gid,
+                        "name": task_name, 
+                        "notes": task_notes,
+                        **({"tags": tags} if tags is not None else {}),
+                        }
+                }
+        opts = {"opt_fields": "name, notes, due_on, tags"}
+
+        try:
+            api_response = tasks_api_instance.create_task(body, opts)
+            ret = {"ok": True, "response": api_response}
+
+        except ApiException as e:
+            ret = {"ok": False, "response": str(e)}
+
+        return ret
+
+    def get_stories_from_a_task(self, task_gid:str = None, offset:str = None) -> dict:
+        """
+        https://developers.asana.com/reference/getstoriesfortask
+        """
+
+        stories_api_instance = asana.StoriesApi(self.api_client)
+        opts = {
+            'limit': 100,
+            'opt_fields': self.asana_opt_fields_full,
+            **({"offset": offset} if offset is not None else {}),
+        }
+
+        try:
+            api_response = stories_api_instance.get_stories_for_task(task_gid, opts)
+            ret = {"ok": True, "response": api_response}
+        except ApiException as e:
+            ret = {"ok": False, "response": str(e)}
+
+        return ret
+
