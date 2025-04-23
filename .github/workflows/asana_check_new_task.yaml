@@ -23,6 +23,13 @@ jobs:
       id: set_env
       run: | 
         echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
+        echo "ASANA_WS_ID=${{ secrets.ASANA_WS_ID }}" >> $GITHUB_ENV
+        echo "ASANA_PJ_ID=${{ secrets.ASANA_PJ_ID }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_TODO=${{ secrets.ASANA_SECTION_TODO }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_INPROGRESS=${{ secrets.ASANA_SECTION_INPROGRESS }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_COMPLETED=${{ secrets.ASANA_SECTION_COMPLETED }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_ARCHIVED_2025=${{ secrets.ASANA_SECTION_ARCHIVED_2025 }}" >> $GITHUB_ENV
+        echo "ASANA_TAG_BOT_CHECKED=${{ secrets.ASANA_TAG_BOT_CHECKED }}" >> $GITHUB_ENV
         echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}" >> $GITHUB_ENV
 
     - name: exec script
