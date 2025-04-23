@@ -31,13 +31,14 @@ class AsanaFunctions:
         for task in tasks_todo:
             print (task)
             print (type(task))
-            answer.append(task["gid"])
+            #answer.append(task["gid"])
 
         for task in tasks_inpr:
             print (task)
             print (type(task))
-            answer.append(task["gid"])
+            #answer.append(task["gid"])
 
+        exit (1)
         ret = {"ok": True, "tasks": answer}
         return ret
 
