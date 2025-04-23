@@ -29,9 +29,13 @@ class AsanaFunctions:
         tasks_inpr = res["response"]
 
         for task in tasks_todo:
+            print (task)
+            print (type(task))
             answer.append(task["gid"])
 
         for task in tasks_inpr:
+            print (task)
+            print (type(task))
             answer.append(task["gid"])
 
         ret = {"ok": True, "tasks": answer}
