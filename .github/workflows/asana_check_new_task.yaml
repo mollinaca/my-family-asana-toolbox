@@ -1,0 +1,35 @@
+name: Asana API Test
+
+on:
+  schedule:
+    - cron: '32 23 * * *'    # JST 8:32 AM 実行
+#   - cron: '* 22 * * *'     # JST 7 AM 実行
+#   - cron: '01 * * * *'     # 毎時 01 分に実行
+  workflow_dispatch:
+  repository_dispatch:
+    types: [repository_dispatch]
+
+jobs:
+  send_message:
+    runs-on: rpi
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Set environment variable
+      id: set_env
+      run: | 
+        echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
+        echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}" >> $GITHUB_ENV
+
+    - name: exec script
+      run: |
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+        pyenv shell 3.12
+        python ./check_new_task.py
