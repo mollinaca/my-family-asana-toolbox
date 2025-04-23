@@ -1,4 +1,4 @@
-name: Asana API Test
+name: Asana Check New Task
 
 on:
   schedule:
