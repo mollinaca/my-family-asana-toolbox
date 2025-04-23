@@ -10,7 +10,7 @@ on:
     types: [repository_dispatch]
 
 jobs:
-  send_message:
+  check_new_task:
     runs-on: rpi
 
     steps:
