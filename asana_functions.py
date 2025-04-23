@@ -24,21 +24,25 @@ class AsanaFunctions:
         answer = []
 
         res = self.a.get_multiple_tasks(self.asana_section_todo)
+        if not res["ok"]:
+            print (res)
+            exit (1)
+
         tasks_todo = res["response"]
+
         res = self.a.get_multiple_tasks(self.asana_section_inprogress)
+        if not res["ok"]:
+            print (res)
+            exit (1)
+
         tasks_inpr = res["response"]
 
         for task in tasks_todo:
-            print (task)
-            print (type(task))
-            #answer.append(task["gid"])
+            answer.append(task["gid"])
 
         for task in tasks_inpr:
-            print (task)
-            print (type(task))
-            #answer.append(task["gid"])
+            answer.append(task["gid"])
 
-        exit (1)
         ret = {"ok": True, "tasks": answer}
         return ret
 
