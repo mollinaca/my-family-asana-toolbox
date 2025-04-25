@@ -29,6 +29,12 @@ def main():
         message = "以下のタスクが完了しました。お疲れ様でした！\n\n"
         message += "\n\n".join(f"{x}\n{y}" for x, y in answer)
         discord_post.post(message)
+        print ("move_task_section completed")
+        exit (0)
+    else:
+        print ("no task completed, exit script.")
+        exit (0)
+
 
 if __name__ == '__main__':
     main()
