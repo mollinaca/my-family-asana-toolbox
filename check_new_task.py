@@ -28,6 +28,12 @@ def main():
         message = "新しいタスクが作成されました。がんばってね。\n\n"
         message += "\n\n".join(f"{x}\n{y}" for x, y in answer)
         discord_post.post(message)
+        print ("check_new_task completed")
+        exit (0)
+    else:
+        print ("no new task found, exit script.")
+        exit (0)
+
 
 if __name__ == '__main__':
     main()
