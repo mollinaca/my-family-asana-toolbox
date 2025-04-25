@@ -25,7 +25,7 @@ def main():
             r = a.check_task_is_botchecked(task_gid)
 
     if new_task_found:
-        message = "新しいタスクが作成されました。がんばってね。\n"
+        message = "新しいタスクが作成されました。がんばってね。\n\n"
         message += "\n\n".join(f"{x}\n{y}" for x, y in answer)
         discord_post.post(message)
 
