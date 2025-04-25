@@ -11,14 +11,15 @@ class AsanaAPI:
         self.configuration = asana.Configuration()
         self.configuration.access_token = os.getenv("ASANA_TOKEN")
         self.asana_ws_gid = os.getenv("ASANA_WS_ID")
-        self.asana_pj_gid = os.getenv("ASANA_PJ_ID") # hstn-famliy-project
+        self.asana_pj_gid = os.getenv("ASANA_PJ_ID")
         self.asana_section_todo = os.getenv("ASANA_SECTION_TODO")
         self.asana_section_inprogress = os.getenv("ASANA_SECTION_INPROGRESS")
         self.asana_section_completed = os.getenv("ASANA_SECTION_COMPLETED")
         self.asana_section_archive2025 = os.getenv("ASANA_SECTION_ARCHIVED_2025")
         self.asana_tag_bot_checked = os.getenv("ASANA_TAG_BOT_CHECKED")
         self.api_client = asana.ApiClient(self.configuration)
-        self.asana_opt_fields_full = "assignee,assignee.name,created_at,created_by,created_by.name,custom_field,custom_field.date_value,custom_field.date_value.date,custom_field.date_value.date_time,custom_field.display_value,custom_field.enabled,custom_field.enum_options,custom_field.enum_options.color,custom_field.enum_options.enabled,custom_field.enum_options.name,custom_field.enum_value,custom_field.enum_value.color,custom_field.enum_value.enabled,custom_field.enum_value.name,custom_field.id_prefix,custom_field.is_formula_field,custom_field.multi_enum_values,custom_field.multi_enum_values.color,custom_field.multi_enum_values.enabled,custom_field.multi_enum_values.name,custom_field.name,custom_field.number_value,custom_field.representation_type,custom_field.text_value,custom_field.type,dependency,dependency.created_by,dependency.name,dependency.resource_subtype,duplicate_of,duplicate_of.created_by,duplicate_of.name,duplicate_of.resource_subtype,duplicated_from,duplicated_from.created_by,duplicated_from.name,duplicated_from.resource_subtype,follower,follower.name,hearted,hearts,hearts.user,hearts.user.name,html_text,is_editable,is_edited,is_pinned,liked,likes,likes.user,likes.user.name,name,new_approval_status,new_date_value,new_dates,new_dates.due_at,new_dates.due_on,new_dates.start_on,new_enum_value,new_enum_value.color,new_enum_value.enabled,new_enum_value.name,new_multi_enum_values,new_multi_enum_values.color,new_multi_enum_values.enabled,new_multi_enum_values.name,new_name,new_number_value,new_people_value,new_people_value.name,new_resource_subtype,new_section,new_section.name,new_text_value,num_hearts,num_likes,offset,old_approval_status,old_date_value,old_dates,old_dates.due_at,old_dates.due_on,old_dates.start_on,old_enum_value,old_enum_value.color,old_enum_value.enabled,old_enum_value.name,old_multi_enum_values,old_multi_enum_values.color,old_multi_enum_values.enabled,old_multi_enum_values.name,old_name,old_number_value,old_people_value,old_people_value.name,old_resource_subtype,old_section,old_section.name,old_text_value,path,permalink_url,previews,previews.fallback,previews.footer,previews.header,previews.header_link,previews.html_text,previews.text,previews.title,previews.title_link,project,project.name,resource_subtype,source,sticker_name,story,story.created_at,story.created_by,story.created_by.name,story.resource_subtype,story.text,tags,tag.name,target,target.created_by,target.name,target.resource_subtype,task,task.created_by,task.name,task.resource_subtype,text,type,uri"
+        self.asana_opt_fields_full = "actual_time_minutes,approval_status,assignee,assignee.name,created_at,completed,completed_at,completed_by,completed_by.name,created_by,created_by.name,custom_field,custom_field.date_value,custom_field.date_value.date,custom_field.date_value.date_time,custom_field.display_value,custom_field.enabled,custom_field.enum_options,custom_field.enum_options.color,custom_field.enum_options.enabled,custom_field.enum_options.name,custom_field.enum_value,custom_field.enum_value.color,custom_field.enum_value.enabled,custom_field.enum_value.name,custom_field.id_prefix,custom_field.is_formula_field,custom_field.multi_enum_values,custom_field.multi_enum_values.color,custom_field.multi_enum_values.enabled,custom_field.multi_enum_values.name,custom_field.name,custom_field.number_value,custom_field.representation_type,custom_field.text_value,custom_field.type,dependency,dependency.created_by,dependency.name,dependency.resource_subtype,duplicate_of,duplicate_of.created_by,duplicate_of.name,duplicate_of.resource_subtype,duplicated_from,duplicated_from.created_by,duplicated_from.name,duplicated_from.resource_subtype,follower,follower.name,hearted,hearts,hearts.user,hearts.user.name,html_text,is_editable,is_edited,is_pinned,liked,likes,likes.user,likes.user.name,name,new_approval_status,new_date_value,new_dates,new_dates.due_at,new_dates.due_on,new_dates.start_on,new_enum_value,new_enum_value.color,new_enum_value.enabled,new_enum_value.name,new_multi_enum_values,new_multi_enum_values.color,new_multi_enum_values.enabled,new_multi_enum_values.name,new_name,new_number_value,new_people_value,new_people_value.name,new_resource_subtype,new_section,new_section.name,new_text_value,num_hearts,num_likes,offset,old_approval_status,old_date_value,old_dates,old_dates.due_at,old_dates.due_on,old_dates.start_on,old_enum_value,old_enum_value.color,old_enum_value.enabled,old_enum_value.name,old_multi_enum_values,old_multi_enum_values.color,old_multi_enum_values.enabled,old_multi_enum_values.name,old_name,old_number_value,old_people_value,old_people_value.name,old_resource_subtype,old_section,old_section.name,old_text_value,path,permalink_url,previews,previews.fallback,previews.footer,previews.header,previews.header_link,previews.html_text,previews.text,previews.title,previews.title_link,project,project.name,resource_subtype,source,sticker_name,story,story.created_at,story.created_by,story.created_by.name,story.resource_subtype,story.text,tags,tag.name,target,target.created_by,target.name,target.resource_subtype,task,task.created_by,task.name,task.resource_subtype,text,type,uri"
+
     def get_multiple_workspaces(self) -> dict:
         """
         https://developers.asana.com/reference/getworkspaces
@@ -145,7 +146,7 @@ class AsanaAPI:
 
         return ret
 
-    def update_a_task(self, task_gid:str = None, task_name:str = None, task_notes:str = None) -> dict:
+    def update_a_task(self, task_gid:str = None, task_name:str = None, task_notes:str = None, assignee_section:str = None) -> dict:
         """
         https://developers.asana.com/reference/updatetask
         """
@@ -158,7 +159,8 @@ class AsanaAPI:
         body = {"data": {
                         "projects": self.asana_pj_gid,
                         **({"name": task_name} if task_name is not None else {}),
-                        **({"notes": task_notes} if task_notes is not None else {})
+                        **({"notes": task_notes} if task_notes is not None else {}),
+                        **({"assignee_section": assignee_section} if assignee_section is not None else {})
                         }
                 }
         opts = {"opt_fields": "name, notes, due_on, tags"}
@@ -204,6 +206,23 @@ class AsanaAPI:
 
         try:
             api_response = tasks_api_instance.add_tag_for_task(body, task_gid)
+            ret = {"ok": True, "response": api_response}
+        except ApiException as e:
+            ret = {"ok": False, "response": str(e)}
+
+        return ret
+
+    def add_a_task_to_section(self, task_gid:str = None, section_gid:str = None) -> dict:
+        """
+        https://developers.asana.com/reference/addtaskforsection
+        """
+        sections_api_instance = asana.SectionsApi(self.api_client)
+        opts = {
+            'body': {"data": {"task": task_gid}}
+        }
+
+        try:
+            api_response = sections_api_instance.add_task_for_section(section_gid, opts)
             ret = {"ok": True, "response": api_response}
         except ApiException as e:
             ret = {"ok": False, "response": str(e)}

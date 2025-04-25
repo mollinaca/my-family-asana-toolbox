@@ -47,6 +47,9 @@ class AsanaFunctions:
         return ret
 
     def get_task_deadline(self, task_gid:str = None):
+        """
+        タスクの締め切り due_on を調べて返す
+        """
         ret = {"ok": False}
 
         if task_gid is None:
@@ -60,6 +63,9 @@ class AsanaFunctions:
         return ret
     
     def get_task_modified_at(self, task_gid:str = None):
+        """
+        タスクが最後に更新された日付 modified_at を調べて返す
+        """
         ret = {"ok": False}
 
         if task_gid is None:
@@ -73,6 +79,9 @@ class AsanaFunctions:
         return ret
     
     def get_task_is_botchecked(self, task_gid:str = None):
+        """
+        タスクにタグ bot-checked が付与されているかを調べて返す
+        """
         ret = {"ok": False}
 
         if task_gid is None:
@@ -93,17 +102,10 @@ class AsanaFunctions:
         
         return ret
 
-    def check_task_is_botchecked(self, task_gid):
-        ret = {"ok": False}
-
-        if task_gid is None:
-            ret = {"ok": False, "response": "task_gid required"}
-            return ret
-
-        res = self.a.add_a_tag_to_a_task(task_gid) # tags を指定しない場合、 bot-checked がつくようになっている
-        return res
-
     def get_last_story_from_a_task(self, task_gid:str = None):
+        """
+        タスクの最後の history を返す
+        """
         ret = {"ok": False}
         if task_gid is None:
             ret = {"ok": False, "response": "task_gid required"}
@@ -118,7 +120,40 @@ class AsanaFunctions:
         ret = {"ok": True, "last_type": last_type, "last_created_at": last_created_at, "last_story": last}
         return ret
 
+    def get_task_is_completed(self, task_gid:str = None):
+        """
+        タスクが完了しているかどうか調べる
+        """
+        ret = {"ok": False}
+        if task_gid is None:
+            ret = {"ok": False, "response": "task_gid required"}
+            return ret
+
+        res = self.a.get_a_task(task_gid)
+        completed = res["response"]["completed"]
+        ret = {"ok": True, "completed": completed, "response": res["response"]}
+
+        return ret
+
+
+    def check_task_is_botchecked(self, task_gid):
+        """
+        タスクにタグ bot-checkd を付与する
+        """
+        ret = {"ok": False}
+
+        if task_gid is None:
+            ret = {"ok": False, "response": "task_gid required"}
+            return ret
+
+        res = self.a.add_a_tag_to_a_task(task_gid) # tags を指定しない場合、 bot-checked がつくようになっている
+        return res
+
+
     def create_a_task(self, task_name:str = None, task_notes:str = None, due_on:str = None):
+        """
+        タスクを作る
+        """
         ret = {"ok": False}
 
         if task_name is None or task_notes is None:
@@ -130,5 +165,22 @@ class AsanaFunctions:
             ret = {"ok": True, "response": res}
         else:
             ret = {"ok": False, "response": res}
+
+        return ret
+
+    def move_task_section_to_completed(self, task_gid:str = None):
+        """
+        タスクのセクションを completed へ移動する
+        """
+        ret = {"ok": False}
+        if task_gid is None:
+            ret = {"ok": False, "response": "task_gid required"}
+            return ret
+
+        res = self.a.add_a_task_to_section(task_gid=task_gid, section_gid=self.asana_section_completed)
+        if res["ok"]:
+            ret = {"ok": True, "response": res["response"]}
+        else:
+            ret = {"ok": False, "response": res["response"]}
 
         return ret
