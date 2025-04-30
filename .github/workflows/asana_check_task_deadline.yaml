@@ -1,4 +1,4 @@
-name: Asana Check New Task
+name: Asana Check Task Deadline
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
     types: [repository_dispatch]
 
 jobs:
-  check_new_task:
+  check_task_deadline:
     runs-on: rpi
 
     steps:
