@@ -1,0 +1,40 @@
+name: Asana Check New Task
+
+on:
+  schedule:
+    - cron: '42 23 * * *'    # JST 8:42 AM 実行
+  workflow_dispatch:
+  repository_dispatch:
+    types: [repository_dispatch]
+
+jobs:
+  check_new_task:
+    runs-on: rpi
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Set environment variable
+      id: set_env
+      run: | 
+        echo "ASANA_TOKEN=${{ secrets.ASANA_TOKEN }}" >> $GITHUB_ENV
+        echo "ASANA_WS_ID=${{ secrets.ASANA_WS_ID }}" >> $GITHUB_ENV
+        echo "ASANA_PJ_ID=${{ secrets.ASANA_PJ_ID }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_TODO=${{ secrets.ASANA_SECTION_TODO }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_INPROGRESS=${{ secrets.ASANA_SECTION_INPROGRESS }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_COMPLETED=${{ secrets.ASANA_SECTION_COMPLETED }}" >> $GITHUB_ENV
+        echo "ASANA_SECTION_ARCHIVED_2025=${{ secrets.ASANA_SECTION_ARCHIVED_2025 }}" >> $GITHUB_ENV
+        echo "ASANA_TAG_BOT_CHECKED=${{ secrets.ASANA_TAG_BOT_CHECKED }}" >> $GITHUB_ENV
+        echo "DISCORD_WEBHOOK_URL=${{ secrets.DISCORD_WEBHOOK_URL }}" >> $GITHUB_ENV
+
+    - name: exec script
+      run: |
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+        pyenv shell 3.12
+        python ./check_task_deadline.py
